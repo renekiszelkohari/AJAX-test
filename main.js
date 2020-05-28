@@ -26,24 +26,47 @@
 //     console.log(data);
 // }, 500);
 
-function getData(cb) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://ci-swapi.herokuapp.com/api/");
-    xhr.send();
+// ------------ CALLBACK FUNCTION INSTEAD OF SET TIMEOUT ---------
 
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            cb(JSON.parse(this.responseText));
-        }
-   };
-}
+// function getData(cb) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.open("GET", "https://ci-swapi.herokuapp.com/api/");
+//     xhr.send();
 
-function printDataToconsole(data) {
-    console.log(data);
-}
+//     xhr.onreadystatechange = function() {
+//         if (this.readyState == 4 && this.status == 200) {
+//             cb(JSON.parse(this.responseText));
+//         }
+//    };
+// }
 
-// getData(function(data) {
+// function printDataToconsole(data) {
 //     console.log(data);
-// })
+// }
 
-getData(printDataToconsole);
+// // getData(function(data) {
+// //     console.log(data);
+// // })
+
+// getData(printDataToconsole);
+
+// ------------- GETTING DATA ONTO THE PAGE ----------
+const baseUrl = "https://ci-swapi.herokuapp.com/api/"
+
+function getData(type, cb) {
+     var xhr = new XMLHttpRequest();
+     xhr.open("GET", baseUrl + type + "/");
+     xhr.send();
+
+     xhr.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+             cb(JSON.parse(this.responseText));
+         }
+    };
+}
+
+function writeToDocument(type) {
+    getData(type, function(data){
+        document.getElementById("data").innerHTML = data;
+    });
+}
