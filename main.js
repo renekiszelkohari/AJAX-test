@@ -72,6 +72,34 @@
 // }
 
 // ------------- UNPACKING DATA ONTO THE DOM ----------
+// const baseUrl = "https://ci-swapi.herokuapp.com/api/"
+
+// function getData(type, cb) {
+//      var xhr = new XMLHttpRequest();
+//      xhr.open("GET", baseUrl + type + "/");
+//      xhr.send();
+
+//      xhr.onreadystatechange = function() {
+//          if (this.readyState == 4 && this.status == 200) {
+//              cb(JSON.parse(this.responseText));
+//          }
+//     };
+// }
+
+// function writeToDocument(type) {
+//     var el = document.getElementById("data");
+//     el.innerHTML = "";
+//     getData(type, function(data){
+//         //console.dir(data);
+//         data = data.results;
+//         data.forEach((item) => {
+//             //document.getElementById("data").innerHtml += "<p>" + item.name + "</p>";
+//             el.innerHTML += "<p>" + item.name + "</p>";
+//         });
+//     });
+// }
+
+// ------------- TABULAR DATA ----------
 const baseUrl = "https://ci-swapi.herokuapp.com/api/"
 
 function getData(type, cb) {
@@ -86,15 +114,29 @@ function getData(type, cb) {
     };
 }
 
+function getTableHeaders(obj) {
+    var tableHeaders = [];
+
+    Object.keys(obj).forEach(function(key) {
+        tableHeaders.push(`<td>${key}</td>`);
+    });
+    return `<tr>${tableHeaders}</tr>`
+}
+
 function writeToDocument(type) {
     var el = document.getElementById("data");
     el.innerHTML = "";
+    
     getData(type, function(data){
-        //console.dir(data);
         data = data.results;
+        var tableHeaders = getTableHeaders(data[0]);
+
         data.forEach((item) => {
-            //document.getElementById("data").innerHtml += "<p>" + item.name + "</p>";
-            el.innerHTML += "<p>" + item.name + "</p>";
+            //Object.keys(item).forEach(function(key) {
+                //console.log(key);
+            //})
+            //el.innerHTML += "<p>" + item.name + "</p>";
         });
+        el.innerHTML = `<table>${tableHeaders}</table>`;
     });
 }
