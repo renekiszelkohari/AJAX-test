@@ -124,6 +124,7 @@ function getTableHeaders(obj) {
 }
 
 function writeToDocument(type) {
+    var tableRows = [];
     var el = document.getElementById("data");
     el.innerHTML = "";
     
@@ -136,7 +137,13 @@ function writeToDocument(type) {
                 //console.log(key);
             //})
             //el.innerHTML += "<p>" + item.name + "</p>";
+            var dataRow = [];
+
+            Object.keys(item).forEach(function(key) {
+                dataRow.push(`<td>${item[key]}</td>`);
+            })
+            tableRows.push(dataRow);
         });
-        el.innerHTML = `<table>${tableHeaders}</table>`;
+        el.innerHTML = `<table>${tableHeaders}${tableRows}</table>`;
     });
 }
